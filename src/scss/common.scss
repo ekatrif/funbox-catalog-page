@@ -1,0 +1,229 @@
+// Заголовки, общие БЄМ блоки и проче...
+body {
+  background-image: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.5) 0%,
+      rgba(0, 0, 0, 5e-5) 49.88%,
+      rgba(0, 0, 0, 0.5) 100%
+    ),
+    url("@img/pattern.png");
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  min-height: 100vh;
+  min-width: 100vw;
+  overflow-x: hidden;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  min-width: 100vw;
+
+  &__title {
+    font-family: "exo2";
+    font-size: 36px;
+    line-height: 44px;
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 0px 1px 1px #000000;
+  }
+
+  &__body {
+    padding-top: 24px;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 50px;
+    justify-content: space-around;
+    align-content: center;
+    // justify-content: center;
+  }
+}
+.body {
+  &__product-card {
+    &__description {
+      padding: 4px;
+      background-image: linear-gradient(
+        135deg,
+        transparent 30px,
+        $mainThemeColor 30px
+      );
+      position: relative;
+      border-radius: 12px;
+
+      width: 320px;
+      height: 480px;
+
+      //overflow: hidden;
+
+      & img {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        object-fit: cover;
+      }
+    }
+
+    &__description:hover {
+      background-image: linear-gradient(
+        135deg,
+        transparent 30px,
+        $mainActiveColor 30px
+      );
+      cursor: pointer;
+    }
+
+    &__link {
+      margin-top: 16px;
+      font-family: "trebuchetms";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 15px;
+      text-align: center;
+
+      color: #ffffff;
+    }
+    &__link a {
+      color: $mainThemeColor;
+      text-decoration: none;
+      border-bottom: 1px dashed $mainThemeColor;
+    }
+    &__link_disabled {
+      margin-top: 16px;
+      font-family: "trebuchetms";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 15px;
+      text-align: center;
+
+      color: #ffff66;
+    }
+  }
+
+  .description {
+    &__wrapper {
+      position: relative;
+      border-radius: 12px;
+      background-image: linear-gradient(135deg, transparent 28px, #f2f2f2 30px);
+      // width: 320px;
+      height: calc(480px - 8px);
+      padding-top: 17px;
+      padding-left: 47px;
+      overflow: hidden;
+    }
+    &__subtitle {
+      font-family: "trebuchetms";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 19px;
+
+      color: #666666;
+    }
+
+    &__title {
+      margin-top: 5px;
+      font-family: "trebuchetms";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 48px;
+      line-height: 56px;
+
+      color: #000000;
+    }
+
+    &__taste {
+      font-family: "trebuchetms";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 28px;
+
+      color: #000000;
+    }
+
+    &__comment {
+      margin-top: 15px;
+      font-family: "trebuchetms";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+      color: #666666;
+      & > span {
+        font-weight: 700;
+      }
+    }
+
+    &__weight {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 8px;
+      position: absolute;
+      right: 16px;
+      bottom: 16px;
+      font-family: "trebuchetms";
+      font-style: normal;
+      font-weight: 400;
+
+      line-height: 22px;
+      color: #ffffff;
+      background: $mainThemeColor;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+
+      &__number {
+        font-size: 42px;
+      }
+      &__units {
+        padding-bottom: 8px;
+        font-size: 21px;
+      }
+    }
+    &__weight_selected {
+      background: $mainActiveColor;
+    }
+  }
+  .description_selected {
+    background-image: linear-gradient(
+      135deg,
+      transparent 30px,
+      $mainActiveColor 30px
+    );
+  }
+  .description_disabled {
+    background-image: linear-gradient(
+      135deg,
+      transparent 30px,
+      $mainDisabledColor 30px
+    );
+  }
+}
+.description__wrapper:hover > .description__weight {
+  background: $mainActiveColor;
+}
+.description__wrapper:hover > .description__subtitle {
+  color: $mainActiveColor;
+}
+/* PC */
+@media (max-width: 1087px) {
+  .container__body {
+    column-gap: 10px;
+    row-gap: 20px;
+  }
+}
+
+/* TABLET */
+@media (max-width: 992px) {
+  .container__body {
+    flex-wrap: wrap;
+    column-gap: 20px;
+    row-gap: 40px;
+  }
+}
