@@ -1,7 +1,17 @@
-// Заголовки, общие БЄМ блоки и проче...
+//Для обработки блоков в статусе _selected
 .display-none {
   display: none;
 }
+//Selected class
+.description_selected {
+  background-image: linear-gradient(
+    135deg,
+    transparent 30px,
+    $mainActiveColor 30px
+  );
+}
+//Основные стили
+
 body {
   background-image: linear-gradient(
       180deg,
@@ -11,18 +21,18 @@ body {
     ),
     url("@img/pattern.png");
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  min-height: 100vh;
-  min-width: 100vw;
+  min-height: 100%;
+  min-width: 100%;
   overflow-x: hidden;
 }
-
+//Контейнер со всем контентом
 .container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  min-width: 100vw;
+  min-height: 100%;
+  min-width: 100%;
 
   &__title {
     font-family: "exo2";
@@ -36,15 +46,18 @@ body {
   &__body {
     padding-top: 24px;
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 50px;
     justify-content: space-evenly;
     align-content: center;
-    // justify-content: center;
   }
 }
+
+//Контейнер с товарами
 .body {
   &__product-card {
+    display: flex;
+    flex-direction: column;
     &__description {
       padding: 4px;
       background-image: linear-gradient(
@@ -69,11 +82,6 @@ body {
     }
 
     &__description:hover {
-      // background-image: linear-gradient(
-      //   135deg,
-      //   transparent 30px,
-      //   $mainActiveColor 30px
-      // );
       cursor: pointer;
     }
 
@@ -192,14 +200,16 @@ body {
         font-size: 21px;
       }
     }
+    //Стили выбранной плашки с весом товара
     &__weight_selected {
       background: $mainActiveColor;
     }
+    //Стили заблокированной плашки с весом товара
     &__weight_disabled {
       background: $mainDisabledColor;
     }
   }
-
+  //Стили заблокированной карточки товара
   .description_disabled {
     background-image: linear-gradient(
       135deg,
@@ -207,6 +217,7 @@ body {
       $mainDisabledColor 30px
     );
   }
+  //Заглушка для заблокированной карточки
   .description_disabled::after {
     position: absolute;
     content: "";
@@ -219,62 +230,53 @@ body {
     cursor: auto;
   }
 }
-// .description__wrapper:hover > .description__weight {
-//   background: $mainActiveColor;
-// }
-// .description__wrapper:hover > .description__subtitle {
-//   color: $mainActiveColor;
-// }
 
-//Selected class
-.description_selected {
-  background-image: linear-gradient(
-    135deg,
-    transparent 30px,
-    $mainActiveColor 30px
-  );
+//Адаптивность
+//Меняем отступы при изменении размера экрана Десктоп
+@media (max-width: 1140px) {
+  .container__body {
+    gap: 40px;
+  }
 }
-/* PC */
 @media (max-width: 1087px) {
   .container__body {
-    column-gap: 10px;
-    row-gap: 20px;
+    gap: 30px;
+  }
+}
+@media (max-width: 1050px) {
+  .container__body {
+    gap: 20px;
+  }
+}
+@media (max-width: 1030px) {
+  .container__body {
+    gap: 10px;
   }
 }
 
-/* TABLET */
+//Для планшета
 @media (max-width: 991px) {
   .container__body {
-    flex-wrap: wrap;
     column-gap: 20px;
     row-gap: 40px;
   }
   .container {
     padding: 20px;
   }
-}
-/* PC */
-@media (max-width: 1087px) {
-  .container__body {
-    max-width: 970px;
+  .body__product-card:nth-child(3n) {
+    width: 100%;
+    align-items: center;
   }
 }
-/* TABLET */
-@media (max-width: 991.98px) {
-  .container__body {
-    max-width: 750px;
 
-    justify-content: center;
-  }
-}
-/* MOBILE */
+//Для смартфона
 @media (max-width: 767.98px) {
   .container__body {
     max-width: 640px;
   }
 }
 
-/* SMALL MOBILE */
+//Для телефона с маленьким экраном
 @media (max-width: 380px) {
   .container {
     padding: 20px 0;
