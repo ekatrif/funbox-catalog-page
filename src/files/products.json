@@ -40,7 +40,7 @@
       "productWeight": 5,
       "isCustomerHappy": true,
       "selectedText": "Филе из цыплят с трюфелями в бульоне.",
-      "isDisabled": false
+      "isDisabled": true
     }
   ]
 }

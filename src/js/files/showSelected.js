@@ -15,28 +15,50 @@ productsContainer.addEventListener("click", function (e) {
     e.target.closest(".body__product-card__link")
   ) {
     return;
+  }
+  if (
+    e.target.closest(".body__product-card") &&
+    e.target
+      .closest(".body__product-card")
+      .querySelectorAll(".description_disabled")[0]
+  ) {
+    return;
   } else {
     e.preventDefault();
-    e.target
-      .closest(".body__product-card")
-      .querySelectorAll(".body__product-card__description")[0]
-      .classList.toggle("description_selected");
-    e.target
-      .closest(".body__product-card")
-      .querySelectorAll(".body__product-card__description")[0]
-      .querySelectorAll(".description__weight")[0]
-      .classList.toggle("description__weight_selected");
+    if (e.target.closest(".body__product-card")) {
+      e.target
+        .closest(".body__product-card")
+        .querySelectorAll(".body__product-card__description")[0]
+        .classList.toggle("description_selected");
+      e.target
+        .closest(".body__product-card")
+        .querySelectorAll(".body__product-card__description")[0]
+        .classList.toggle("description_default");
+      e.target
+        .closest(".body__product-card")
+        .querySelectorAll(".body__product-card__description")[0]
+        .querySelectorAll(".description__weight")[0]
+        .classList.toggle("description__weight_selected");
+      e.target
+        .closest(".body__product-card")
+        .querySelectorAll(".body__product-card__description")[0]
+        .querySelectorAll(".description__weight")[0]
+        .classList.toggle("description__weight_default");
+    }
   }
   //Меняем текст под карточкой
-  let linkContainer = e.target
-    .closest(".body__product-card")
-    .querySelectorAll(".body__product-card__link")[0];
-  let spans = linkContainer.querySelectorAll("span");
+  if (e.target.closest(".body__product-card")) {
+    let linkContainer = e.target
+      .closest(".body__product-card")
+      .querySelectorAll(".body__product-card__link")[0];
 
-  for (let span of [...spans]) {
-    span.classList.toggle("display-none");
+    let spans = linkContainer.querySelectorAll("span");
+
+    for (let span of [...spans]) {
+      span.classList.toggle("display-none");
+      spans[2].classList.toggle("display-none");
+    }
   }
-
   showHoverState();
 
   flagLeave = false;
@@ -68,7 +90,6 @@ productsContainer.addEventListener("click", function (e) {
             .classList.contains("description_selected")
         ) {
           if (!flagEnter) {
-            console.log("flaEnter сработал");
             toggleSubtitle(e);
           }
           flagEnter = true;
