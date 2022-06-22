@@ -21,7 +21,15 @@ export const js = () => {
     )
     .pipe(
       app.plugins.babel({
-        presets: ["@babel/preset-env"],
+        presets: [
+          [
+            "@babel/preset-env",
+            {
+              useBuiltIns: "usage",
+              corejs: 3,
+            },
+          ],
+        ],
       })
     )
     .pipe(app.gulp.dest(app.path.build.js));
