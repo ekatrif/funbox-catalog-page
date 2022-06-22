@@ -40,7 +40,7 @@ body {
     padding-top: 24px;
     display: flex;
     flex-wrap: wrap;
-    gap: 50px;
+    gap: 80px;
     justify-content: space-evenly;
     align-content: center;
   }
@@ -68,8 +68,8 @@ body {
 
       & img {
         position: absolute;
-        left: 0;
-        bottom: 0;
+        left: -4px;
+        bottom: -4px;
         object-fit: cover;
       }
     }
@@ -136,12 +136,13 @@ body {
 
     &__title {
       margin-top: 5px;
+      margin-left: -2px;
       font-family: "trebuchetms";
       font-style: normal;
       font-weight: 700;
       font-size: 48px;
       line-height: 56px;
-
+      letter-spacing: 0.04em;
       color: #000000;
     }
 
@@ -151,12 +152,13 @@ body {
       font-weight: 700;
       font-size: 24px;
       line-height: 28px;
-
+      letter-spacing: 0.04em;
       color: #000000;
     }
 
     &__comment {
-      margin-top: 15px;
+      margin-top: 14px;
+      margin-left: 1px;
       font-family: "trebuchetms";
       font-style: normal;
       font-weight: 400;
@@ -175,8 +177,8 @@ body {
       align-items: center;
       gap: 8px;
       position: absolute;
-      right: 16px;
-      bottom: 16px;
+      right: 12px;
+      bottom: 12px;
       font-family: "trebuchetms";
       font-style: normal;
       font-weight: 400;
