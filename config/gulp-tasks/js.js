@@ -1,6 +1,5 @@
 import webpack from "webpack-stream";
 import webPackConfig from "../webpack.prod.js";
-import babel from "gulp-babel";
 
 export const js = () => {
   return app.gulp
@@ -14,16 +13,16 @@ export const js = () => {
         })
       )
     )
-    .pipe(
-      babel({
-        presets: ["@babel/preset-env"],
-      })
-    )
+
     .pipe(
       webpack({
         config: webPackConfig,
       })
     )
-
+    .pipe(
+      app.plugins.babel({
+        presets: ["@babel/preset-env"],
+      })
+    )
     .pipe(app.gulp.dest(app.path.build.js));
 };
