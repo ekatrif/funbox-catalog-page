@@ -26,7 +26,7 @@ export const js = () => {
             "@babel/preset-env",
             {
               useBuiltIns: "usage",
-              corejs: 7,
+              corejs: 3,
             },
           ],
         ],
