@@ -163,9 +163,9 @@ body {
   display: flex;
   -ms-flex-wrap: nowrap;
       flex-wrap: nowrap;
-  -webkit-box-pack: space-evenly;
-      -ms-flex-pack: space-evenly;
-          justify-content: space-evenly;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   -ms-flex-line-pack: center;
       align-content: center;
 }
@@ -466,6 +466,11 @@ body {
 
   .container__body .body__product-card:nth-child(3) {
     margin-top: 40px;
+    margin-left: 40px;
+  }
+
+  .container__body .body__product-card:nth-child(2) {
+    margin-left: 50px;
   }
 
   .container {

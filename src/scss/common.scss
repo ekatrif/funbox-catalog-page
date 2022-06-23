@@ -44,7 +44,7 @@ body {
     display: flex;
     flex-wrap: nowrap;
     //gap: 80px;
-    justify-content: space-evenly;
+    justify-content: center;
     align-content: center;
   }
 }
@@ -303,6 +303,10 @@ body {
     flex-wrap: wrap;
     .body__product-card:nth-child(3) {
       margin-top: 40px;
+      margin-left: 40px;
+    }
+    .body__product-card:nth-child(2) {
+      margin-left: 50px;
     }
   }
   .container {
