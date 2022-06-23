@@ -2858,7 +2858,7 @@
                 productTaste: "с фуа-гра",
                 productNumberPortions: 10,
                 productNumberMices: 0,
-                productWeight: .5,
+                productWeight: "0,5",
                 isCustomerHappy: false,
                 selectedText: "Печень утки разварная с артишоками.",
                 isDisabled: false
