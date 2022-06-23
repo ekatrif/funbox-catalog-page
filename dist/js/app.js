@@ -1102,6 +1102,17 @@
                 }
             });
         },
+        4336: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
+            "use strict";
+            var $export = __webpack_require__(2985);
+            var $forEach = __webpack_require__(50)(0);
+            var STRICT = __webpack_require__(7717)([].forEach, true);
+            $export($export.P + $export.F * !STRICT, "Array", {
+                forEach: function forEach(callbackfn) {
+                    return $forEach(this, callbackfn, arguments[1]);
+                }
+            });
+        },
         522: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
             var ctx = __webpack_require__(741);
@@ -1133,6 +1144,24 @@
                     result.length = index;
                     return result;
                 }
+            });
+        },
+        3369: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
+            "use strict";
+            var $export = __webpack_require__(2985);
+            var $indexOf = __webpack_require__(9315)(false);
+            var $native = [].indexOf;
+            var NEGATIVE_ZERO = !!$native && 1 / [ 1 ].indexOf(1, -0) < 0;
+            $export($export.P + $export.F * (NEGATIVE_ZERO || !__webpack_require__(7717)($native)), "Array", {
+                indexOf: function indexOf(searchElement) {
+                    return NEGATIVE_ZERO ? $native.apply(this, arguments) || 0 : $indexOf(this, searchElement, arguments[1]);
+                }
+            });
+        },
+        774: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
+            var $export = __webpack_require__(2985);
+            $export($export.S, "Array", {
+                isArray: __webpack_require__(4302)
             });
         },
         6997: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -1197,6 +1226,17 @@
                     return cloned;
                 }
             });
+        },
+        6331: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
+            var DateProto = Date.prototype;
+            var INVALID_DATE = "Invalid Date";
+            var TO_STRING = "toString";
+            var $toString = DateProto[TO_STRING];
+            var getTime = DateProto.getTime;
+            if (new Date(NaN) + "" != INVALID_DATE) __webpack_require__(7234)(DateProto, TO_STRING, (function toString() {
+                var value = getTime.call(this);
+                return value === value ? $toString.call(this) : INVALID_DATE;
+            }));
         },
         6059: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             var dP = __webpack_require__(9275).f;
@@ -1593,6 +1633,14 @@
                 }
             });
         },
+        4564: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
+            "use strict";
+            __webpack_require__(9599)("trim", (function($trim) {
+                return function trim() {
+                    return $trim(this, 3);
+                };
+            }));
+        },
         5767: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
             var global = __webpack_require__(3816);
@@ -1895,10 +1943,14 @@
         __webpack_require__(6253);
         __webpack_require__(6997);
         __webpack_require__(1181);
+        __webpack_require__(4336);
         __webpack_require__(7732);
         __webpack_require__(1246);
+        __webpack_require__(6331);
         __webpack_require__(6108);
+        __webpack_require__(3369);
         __webpack_require__(110);
+        __webpack_require__(4564);
         __webpack_require__(9371);
         var addWindowScrollEvent = false;
         setTimeout((function() {
@@ -1910,6 +1962,7 @@
             }
         }), 0);
         __webpack_require__(6059);
+        __webpack_require__(774);
         function _createForOfIteratorHelper(o, allowArrayLike) {
             var it = "undefined" !== typeof Symbol && o[Symbol.iterator] || o["@@iterator"];
             if (!it) {
@@ -1952,7 +2005,7 @@
                 },
                 f: function f() {
                     try {
-                        if (!normalCompletion && null != it.return) it.return();
+                        if (!normalCompletion && null != it["return"]) it["return"]();
                     } finally {
                         if (didErr) throw err;
                     }
@@ -2047,6 +2100,87 @@
                 _iterator.f();
             }
         }
+        function _toConsumableArray(arr) {
+            return _arrayWithoutHoles(arr) || _iterableToArray(arr) || showSelected_unsupportedIterableToArray(arr) || _nonIterableSpread();
+        }
+        function _nonIterableSpread() {
+            throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+        }
+        function showSelected_unsupportedIterableToArray(o, minLen) {
+            if (!o) return;
+            if ("string" === typeof o) return showSelected_arrayLikeToArray(o, minLen);
+            var n = Object.prototype.toString.call(o).slice(8, -1);
+            if ("Object" === n && o.constructor) n = o.constructor.name;
+            if ("Map" === n || "Set" === n) return Array.from(o);
+            if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return showSelected_arrayLikeToArray(o, minLen);
+        }
+        function _iterableToArray(iter) {
+            if ("undefined" !== typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
+        }
+        function _arrayWithoutHoles(arr) {
+            if (Array.isArray(arr)) return showSelected_arrayLikeToArray(arr);
+        }
+        function showSelected_arrayLikeToArray(arr, len) {
+            if (null == len || len > arr.length) len = arr.length;
+            for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+            return arr2;
+        }
+        var showSelected_productsContainer = document.getElementById("products");
+        var flagLeave = false;
+        var flagEnter = false;
+        showSelected_productsContainer.addEventListener("click", (function(e) {
+            if (!e.target.classList.contains("link__a") && e.target.closest(".body__product-card__link")) return;
+            if (e.target.closest(".body__product-card") && e.target.closest(".body__product-card").querySelectorAll(".description_disabled")[0]) return; else {
+                e.preventDefault();
+                if (e.target.closest(".body__product-card")) {
+                    e.target.closest(".body__product-card").querySelectorAll(".body__product-card__description")[0].classList.toggle("description_selected");
+                    e.target.closest(".body__product-card").querySelectorAll(".body__product-card__description")[0].classList.toggle("description_default");
+                    e.target.closest(".body__product-card").querySelectorAll(".body__product-card__description")[0].querySelectorAll(".description__weight")[0].classList.toggle("description__weight_selected");
+                    e.target.closest(".body__product-card").querySelectorAll(".body__product-card__description")[0].querySelectorAll(".description__weight")[0].classList.toggle("description__weight_default");
+                }
+            }
+            if (e.target.closest(".body__product-card")) {
+                var linkContainer = e.target.closest(".body__product-card").querySelectorAll(".body__product-card__link")[0];
+                var spans = linkContainer.querySelectorAll("span");
+                for (var _i = 0, _arr = _toConsumableArray(spans); _i < _arr.length; _i++) {
+                    var span = _arr[_i];
+                    span.classList.toggle("display-none");
+                    spans[2].classList.toggle("display-none");
+                }
+            }
+            showHoverState();
+            flagLeave = false;
+            flagEnter = false;
+            function showHoverState() {
+                var productCards = document.querySelectorAll(".body__product-card");
+                var _loop = function _loop() {
+                    var productCard = _arr2[_i2];
+                    productCard.addEventListener("mouseleave", (function(e) {
+                        if (e.target.querySelectorAll(".body__product-card__description")[0].classList.contains("description_selected")) {
+                            if (!flagLeave) toggleSubtitle(e);
+                            flagLeave = true;
+                            flagEnter = false;
+                        }
+                    }));
+                    productCard.addEventListener("mouseenter", (function(e) {
+                        if (e.target.querySelectorAll(".body__product-card__description")[0].classList.contains("description_selected")) {
+                            if (!flagEnter) toggleSubtitle(e);
+                            flagEnter = true;
+                            flagLeave = false;
+                        }
+                    }));
+                    function toggleSubtitle(e) {
+                        var subTitle = e.target.querySelectorAll(".description__subtitle")[0];
+                        var spans = subTitle.querySelectorAll("span");
+                        for (var _i3 = 0, _arr3 = _toConsumableArray(spans); _i3 < _arr3.length; _i3++) {
+                            var _span = _arr3[_i3];
+                            _span.classList.toggle("display-none");
+                        }
+                    }
+                };
+                for (var _i2 = 0, _arr2 = _toConsumableArray(productCards); _i2 < _arr2.length; _i2++) _loop();
+            }
+        }));
         window["FLS"] = true;
     }();
 })();

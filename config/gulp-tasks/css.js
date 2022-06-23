@@ -16,14 +16,7 @@ export const css = () => {
       )
     )
     .pipe(app.plugins.if(app.isBuild, groupCssMediaQueries()))
-    .pipe(
-      app.plugins.if(
-        app.isBuild,
-        autoprefixer({
-          grid: true,
-        })
-      )
-    )
+    .pipe(app.plugins.if(app.isBuild, autoprefixer()))
 
     .pipe(app.gulp.dest(app.path.build.css))
     .pipe(app.plugins.if(app.isBuild, cleanCss()))

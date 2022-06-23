@@ -193,7 +193,7 @@ import * as flsScroll from "./files/scroll/scroll.js";
 /* Подключаем файлы со своим кодом */
 //import "./files/script.js";
 import "./files/getProducts.js";
-//import "./files/showSelected.js";
+import "./files/showSelected.js";
 //Осталось:
 //Заставить бабель делать хороший код по статье на Хобр
 //оптимизировать вертску и код
