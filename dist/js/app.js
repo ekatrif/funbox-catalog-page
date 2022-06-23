@@ -1,5 +1,18 @@
 (function() {
     var __webpack_modules__ = {
+        5053: function() {
+            if ("undefined" !== typeof Element) {
+                if (!Element.prototype.matches) Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+                if (!Element.prototype.closest) Element.prototype.closest = function(s) {
+                    var el = this;
+                    do {
+                        if (el.matches(s)) return el;
+                        el = el.parentElement || el.parentNode;
+                    } while (null !== el && 1 === el.nodeType);
+                    return null;
+                };
+            }
+        },
         9662: function(module, __unused_webpack_exports, __webpack_require__) {
             var isCallable = __webpack_require__(614);
             var tryToString = __webpack_require__(6330);
@@ -2910,6 +2923,7 @@
                 _iterator.f();
             }
         }
+        __webpack_require__(5053);
         function _toConsumableArray(arr) {
             return _arrayWithoutHoles(arr) || _iterableToArray(arr) || showSelected_unsupportedIterableToArray(arr) || _nonIterableSpread();
         }

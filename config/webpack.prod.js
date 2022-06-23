@@ -4,7 +4,7 @@ import FileIncludeWebpackPlugin from "file-include-webpack-plugin-replace";
 import CopyPlugin from "copy-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
-import "element-closest-polyfill";
+
 import * as path from "path";
 
 const srcFolder = "src";

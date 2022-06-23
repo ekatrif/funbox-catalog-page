@@ -5,8 +5,7 @@
       {
         "useBuiltIns": "usage",
         "corejs": "3.23.2"
-      },
-      "element-closest-polyfill"
+      }
     ]
   ]
 }
