@@ -1,4 +1,4 @@
-(function() {
+(() => {
     "use strict";
     let addWindowScrollEvent = false;
     setTimeout((() => {

@@ -18,9 +18,9 @@
     "bem": "fls-bemtree-from-html"
   },
   "devDependencies": {
+    "@babel/cli": "^7.17.10",
     "@babel/core": "^7.18.5",
     "@babel/preset-env": "^7.18.2",
-    "babel-loader": "^8.2.5",
     "copy-webpack-plugin": "latest",
     "css-loader": "latest",
     "del": "latest",
