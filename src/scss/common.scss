@@ -27,8 +27,7 @@ body {
   align-items: center;
   width: 100%;
   height: 100%;
-
-  margin-left: -40px;
+  // margin-left: -40px;
 
   &__title {
     font-family: "Exo2";
@@ -46,6 +45,7 @@ body {
     //gap: 80px;
     justify-content: center;
     align-content: center;
+    margin-left: -80px;
   }
 }
 
@@ -54,9 +54,10 @@ body {
   &__product-card {
     display: flex;
     flex-direction: column;
-    &:not(first-child) {
+    & {
       margin-left: 80px;
     }
+
     &__description {
       padding: 4px;
       // background-image: linear-gradient(
@@ -255,42 +256,46 @@ body {
 //Меняем отступы при изменении размера экрана Десктоп
 @media (max-width: 1200px) {
   .container__body {
+    margin-left: -40px;
     //gap: 40px;
   }
-  .body__product-card:not(first-child) {
+  .body__product-card {
     margin-left: 40px;
   }
 }
 @media (max-width: 1087px) {
   .container {
-    margin-left: -15px;
+    //margin-left: -15px;
   }
   .container__body {
+    margin-left: -30px;
     //gap: 30px;
   }
-  .body__product-card:not(first-child) {
+  .body__product-card {
     margin-left: 30px;
   }
 }
 @media (max-width: 1050px) {
   .container {
-    margin-left: -10px;
+    //  margin-left: -10px;
   }
   .container__body {
     // gap: 20px;
+    margin-left: -20px;
   }
-  .body__product-card:not(first-child) {
+  .body__product-card {
     margin-left: 20px;
   }
 }
 @media (max-width: 1030px) {
   .container {
-    margin-left: -5px;
+    // margin-left: -5px;
   }
   .container__body {
     // gap: 10px;
+    margin-left: -10px;
   }
-  .body__product-card:not(first-child) {
+  .body__product-card {
     margin-left: 10px;
   }
 }
@@ -300,15 +305,16 @@ body {
   .container__body {
     //column-gap: 20px;
     // row-gap: 40px;
+    margin-left: -40px;
     flex-wrap: wrap;
-    .body__product-card:nth-child(3) {
-      margin-top: 40px;
-      margin-left: 40px;
-    }
-    .body__product-card:nth-child(2) {
-      margin-left: 50px;
-    }
   }
+  .body__product-card:nth-child(3) {
+    margin-top: 40px;
+  }
+  .body__product-card {
+    margin-left: 40px;
+  }
+
   .container {
     display: block;
     width: auto;
@@ -324,19 +330,23 @@ body {
 //Для смартфона
 @media (max-width: 768px) {
   .container__body {
-    max-width: 640px;
+    // max-width: 640px;
+    margin-left: 0px;
   }
   .body__product-card:not(:first-child) {
     margin-top: 40px;
+  }
+  .body__product-card {
+    width: 100%;
+    margin-left: calc(50% - 160px);
   }
 }
 
 //Для телефона с маленьким экраном
 @media (max-width: 380px) {
   .container {
-    margin-left: 0px;
   }
   .container {
-    padding: 20px 0;
+    padding: 20px 5px;
   }
 }
