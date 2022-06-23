@@ -1,2 +1,2 @@
-defaults
-IE 10
+defaults;
+IE >= 10;
