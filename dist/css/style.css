@@ -105,13 +105,11 @@ h6 {
   position: absolute;
   bottom: 0;
   left: 0;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 
 [class*=-ibg_contain] img {
-  -o-object-fit: contain;
-     object-fit: contain;
+  object-fit: contain;
 }
 
 .display-none {
@@ -171,8 +169,7 @@ body {
   position: absolute;
   left: -4px;
   bottom: -4px;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 
 .body__product-card__description:hover {
@@ -409,8 +406,7 @@ body {
 
 @media (max-width: 991px) {
   .container__body {
-    -moz-column-gap: 20px;
-         column-gap: 20px;
+    column-gap: 20px;
     row-gap: 40px;
   }
 
