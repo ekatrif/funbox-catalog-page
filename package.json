@@ -78,5 +78,9 @@
   },
   "dependencies": {
     "simplebar": "latest"
-  }
+  },
+  "browserslist": [
+    "defaults",
+    "not IE 11"
+  ]
 }
