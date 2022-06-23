@@ -21,12 +21,6 @@
                 return index + (unicode ? at(S, index).length : 1);
             };
         },
-        3328: function(module) {
-            module.exports = function(it, Constructor, name, forbiddenField) {
-                if (!(it instanceof Constructor) || void 0 !== forbiddenField && forbiddenField in it) throw TypeError(name + ": incorrect invocation!");
-                return it;
-            };
-        },
         7007: function(module, __unused_webpack_exports, __webpack_require__) {
             var isObject = __webpack_require__(5286);
             module.exports = function(it) {
@@ -382,34 +376,6 @@
                 return result;
             };
         },
-        3531: function(module, __unused_webpack_exports, __webpack_require__) {
-            var ctx = __webpack_require__(741);
-            var call = __webpack_require__(8851);
-            var isArrayIter = __webpack_require__(6555);
-            var anObject = __webpack_require__(7007);
-            var toLength = __webpack_require__(875);
-            var getIterFn = __webpack_require__(9002);
-            var BREAK = {};
-            var RETURN = {};
-            var exports = module.exports = function(iterable, entries, fn, that, ITERATOR) {
-                var iterFn = ITERATOR ? function() {
-                    return iterable;
-                } : getIterFn(iterable);
-                var f = ctx(fn, that, entries ? 2 : 1);
-                var index = 0;
-                var length, step, iterator, result;
-                if ("function" != typeof iterFn) throw TypeError(iterable + " is not iterable!");
-                if (isArrayIter(iterFn)) for (length = toLength(iterable.length); length > index; index++) {
-                    result = entries ? f(anObject(step = iterable[index])[0], step[1]) : f(iterable[index]);
-                    if (result === BREAK || result === RETURN) return result;
-                } else for (iterator = iterFn.call(iterable); !(step = iterator.next()).done; ) {
-                    result = call(iterator, f, step.value, entries);
-                    if (result === BREAK || result === RETURN) return result;
-                }
-            };
-            exports.BREAK = BREAK;
-            exports.RETURN = RETURN;
-        },
         18: function(module, __unused_webpack_exports, __webpack_require__) {
             module.exports = __webpack_require__(3825)("native-function-to-string", Function.toString);
         },
@@ -454,28 +420,6 @@
                 var P;
                 if (S !== C && "function" == typeof S && (P = S.prototype) !== C.prototype && isObject(P) && setPrototypeOf) setPrototypeOf(that, P);
                 return that;
-            };
-        },
-        7242: function(module) {
-            module.exports = function(fn, args, that) {
-                var un = void 0 === that;
-                switch (args.length) {
-                  case 0:
-                    return un ? fn() : fn.call(that);
-
-                  case 1:
-                    return un ? fn(args[0]) : fn.call(that, args[0]);
-
-                  case 2:
-                    return un ? fn(args[0], args[1]) : fn.call(that, args[0], args[1]);
-
-                  case 3:
-                    return un ? fn(args[0], args[1], args[2]) : fn.call(that, args[0], args[1], args[2]);
-
-                  case 4:
-                    return un ? fn(args[0], args[1], args[2], args[3]) : fn.call(that, args[0], args[1], args[2], args[3]);
-                }
-                return fn.apply(that, args);
             };
         },
         9797: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -709,81 +653,6 @@
                 onFreeze: onFreeze
             };
         },
-        4351: function(module, __unused_webpack_exports, __webpack_require__) {
-            var global = __webpack_require__(3816);
-            var macrotask = __webpack_require__(4193).set;
-            var Observer = global.MutationObserver || global.WebKitMutationObserver;
-            var process = global.process;
-            var Promise = global.Promise;
-            var isNode = "process" == __webpack_require__(2032)(process);
-            module.exports = function() {
-                var head, last, notify;
-                var flush = function() {
-                    var parent, fn;
-                    if (isNode && (parent = process.domain)) parent.exit();
-                    while (head) {
-                        fn = head.fn;
-                        head = head.next;
-                        try {
-                            fn();
-                        } catch (e) {
-                            if (head) notify(); else last = void 0;
-                            throw e;
-                        }
-                    }
-                    last = void 0;
-                    if (parent) parent.enter();
-                };
-                if (isNode) notify = function() {
-                    process.nextTick(flush);
-                }; else if (Observer && !(global.navigator && global.navigator.standalone)) {
-                    var toggle = true;
-                    var node = document.createTextNode("");
-                    new Observer(flush).observe(node, {
-                        characterData: true
-                    });
-                    notify = function() {
-                        node.data = toggle = !toggle;
-                    };
-                } else if (Promise && Promise.resolve) {
-                    var promise = Promise.resolve(void 0);
-                    notify = function() {
-                        promise.then(flush);
-                    };
-                } else notify = function() {
-                    macrotask.call(global, flush);
-                };
-                return function(fn) {
-                    var task = {
-                        fn: fn,
-                        next: void 0
-                    };
-                    if (last) last.next = task;
-                    if (!head) {
-                        head = task;
-                        notify();
-                    }
-                    last = task;
-                };
-            };
-        },
-        3499: function(module, __unused_webpack_exports, __webpack_require__) {
-            "use strict";
-            var aFunction = __webpack_require__(4963);
-            function PromiseCapability(C) {
-                var resolve, reject;
-                this.promise = new C((function($$resolve, $$reject) {
-                    if (void 0 !== resolve || void 0 !== reject) throw TypeError("Bad Promise constructor");
-                    resolve = $$resolve;
-                    reject = $$reject;
-                }));
-                this.resolve = aFunction(resolve);
-                this.reject = aFunction(reject);
-            }
-            module.exports.f = function(C) {
-                return new PromiseCapability(C);
-            };
-        },
         2503: function(module, __unused_webpack_exports, __webpack_require__) {
             var anObject = __webpack_require__(7007);
             var dPs = __webpack_require__(5588);
@@ -930,47 +799,6 @@
         4682: function(__unused_webpack_module, exports) {
             exports.f = {}.propertyIsEnumerable;
         },
-        3160: function(module, __unused_webpack_exports, __webpack_require__) {
-            var $export = __webpack_require__(2985);
-            var core = __webpack_require__(5645);
-            var fails = __webpack_require__(4253);
-            module.exports = function(KEY, exec) {
-                var fn = (core.Object || {})[KEY] || Object[KEY];
-                var exp = {};
-                exp[KEY] = exec(fn);
-                $export($export.S + $export.F * fails((function() {
-                    fn(1);
-                })), "Object", exp);
-            };
-        },
-        188: function(module) {
-            module.exports = function(exec) {
-                try {
-                    return {
-                        e: false,
-                        v: exec()
-                    };
-                } catch (e) {
-                    return {
-                        e: true,
-                        v: e
-                    };
-                }
-            };
-        },
-        94: function(module, __unused_webpack_exports, __webpack_require__) {
-            var anObject = __webpack_require__(7007);
-            var isObject = __webpack_require__(5286);
-            var newPromiseCapability = __webpack_require__(3499);
-            module.exports = function(C, x) {
-                anObject(C);
-                if (isObject(x) && x.constructor === C) return x;
-                var promiseCapability = newPromiseCapability.f(C);
-                var resolve = promiseCapability.resolve;
-                resolve(x);
-                return promiseCapability.promise;
-            };
-        },
         681: function(module) {
             module.exports = function(bitmap, value) {
                 return {
@@ -979,13 +807,6 @@
                     writable: !(4 & bitmap),
                     value: value
                 };
-            };
-        },
-        4408: function(module, __unused_webpack_exports, __webpack_require__) {
-            var redefine = __webpack_require__(7234);
-            module.exports = function(target, src, safe) {
-                for (var key in src) redefine(target, key, src[key], safe);
-                return target;
             };
         },
         7234: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -1079,22 +900,6 @@
                     };
                 }({}, false) : void 0),
                 check: check
-            };
-        },
-        2974: function(module, __unused_webpack_exports, __webpack_require__) {
-            "use strict";
-            var global = __webpack_require__(3816);
-            var dP = __webpack_require__(9275);
-            var DESCRIPTORS = __webpack_require__(7057);
-            var SPECIES = __webpack_require__(6314)("species");
-            module.exports = function(KEY) {
-                var C = global[KEY];
-                if (DESCRIPTORS && C && !C[SPECIES]) dP.f(C, SPECIES, {
-                    configurable: true,
-                    get: function() {
-                        return this;
-                    }
-                });
             };
         },
         2943: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -1199,74 +1004,6 @@
         4644: function(module) {
             module.exports = "\t\n\v\f\r   ᠎    " + "         　\u2028\u2029\ufeff";
         },
-        4193: function(module, __unused_webpack_exports, __webpack_require__) {
-            var ctx = __webpack_require__(741);
-            var invoke = __webpack_require__(7242);
-            var html = __webpack_require__(639);
-            var cel = __webpack_require__(2457);
-            var global = __webpack_require__(3816);
-            var process = global.process;
-            var setTask = global.setImmediate;
-            var clearTask = global.clearImmediate;
-            var MessageChannel = global.MessageChannel;
-            var Dispatch = global.Dispatch;
-            var counter = 0;
-            var queue = {};
-            var ONREADYSTATECHANGE = "onreadystatechange";
-            var defer, channel, port;
-            var run = function() {
-                var id = +this;
-                if (queue.hasOwnProperty(id)) {
-                    var fn = queue[id];
-                    delete queue[id];
-                    fn();
-                }
-            };
-            var listener = function(event) {
-                run.call(event.data);
-            };
-            if (!setTask || !clearTask) {
-                setTask = function setImmediate(fn) {
-                    var args = [];
-                    var i = 1;
-                    while (arguments.length > i) args.push(arguments[i++]);
-                    queue[++counter] = function() {
-                        invoke("function" == typeof fn ? fn : Function(fn), args);
-                    };
-                    defer(counter);
-                    return counter;
-                };
-                clearTask = function clearImmediate(id) {
-                    delete queue[id];
-                };
-                if ("process" == __webpack_require__(2032)(process)) defer = function(id) {
-                    process.nextTick(ctx(run, id, 1));
-                }; else if (Dispatch && Dispatch.now) defer = function(id) {
-                    Dispatch.now(ctx(run, id, 1));
-                }; else if (MessageChannel) {
-                    channel = new MessageChannel;
-                    port = channel.port2;
-                    channel.port1.onmessage = listener;
-                    defer = ctx(port.postMessage, port, 1);
-                } else if (global.addEventListener && "function" == typeof postMessage && !global.importScripts) {
-                    defer = function(id) {
-                        global.postMessage(id + "", "*");
-                    };
-                    global.addEventListener("message", listener, false);
-                } else if (ONREADYSTATECHANGE in cel("script")) defer = function(id) {
-                    html.appendChild(cel("script"))[ONREADYSTATECHANGE] = function() {
-                        html.removeChild(this);
-                        run.call(id);
-                    };
-                }; else defer = function(id) {
-                    setTimeout(ctx(run, id, 1), 0);
-                };
-            }
-            module.exports = {
-                set: setTask,
-                clear: clearTask
-            };
-        },
         2337: function(module, __unused_webpack_exports, __webpack_require__) {
             var toInteger = __webpack_require__(1467);
             var max = Math.max;
@@ -1320,11 +1057,6 @@
             module.exports = function(key) {
                 return "Symbol(".concat(void 0 === key ? "" : key, ")_", (++id + px).toString(36));
             };
-        },
-        575: function(module, __unused_webpack_exports, __webpack_require__) {
-            var global = __webpack_require__(3816);
-            var navigator = global.navigator;
-            module.exports = navigator && navigator.userAgent || "";
         },
         6074: function(module, __unused_webpack_exports, __webpack_require__) {
             var global = __webpack_require__(3816);
@@ -1549,15 +1281,6 @@
                 __webpack_require__(7234)(global, NUMBER, $Number);
             }
         },
-        1520: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
-            var toObject = __webpack_require__(508);
-            var $getPrototypeOf = __webpack_require__(468);
-            __webpack_require__(3160)("getPrototypeOf", (function() {
-                return function getPrototypeOf(it) {
-                    return $getPrototypeOf(toObject(it));
-                };
-            }));
-        },
         6253: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
             var classof = __webpack_require__(1488);
@@ -1566,265 +1289,6 @@
             if (test + "" != "[object z]") __webpack_require__(7234)(Object.prototype, "toString", (function toString() {
                 return "[object " + classof(this) + "]";
             }), true);
-        },
-        851: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
-            "use strict";
-            var LIBRARY = __webpack_require__(4461);
-            var global = __webpack_require__(3816);
-            var ctx = __webpack_require__(741);
-            var classof = __webpack_require__(1488);
-            var $export = __webpack_require__(2985);
-            var isObject = __webpack_require__(5286);
-            var aFunction = __webpack_require__(4963);
-            var anInstance = __webpack_require__(3328);
-            var forOf = __webpack_require__(3531);
-            var speciesConstructor = __webpack_require__(8364);
-            var task = __webpack_require__(4193).set;
-            var microtask = __webpack_require__(4351)();
-            var newPromiseCapabilityModule = __webpack_require__(3499);
-            var perform = __webpack_require__(188);
-            var userAgent = __webpack_require__(575);
-            var promiseResolve = __webpack_require__(94);
-            var PROMISE = "Promise";
-            var TypeError = global.TypeError;
-            var process = global.process;
-            var versions = process && process.versions;
-            var v8 = versions && versions.v8 || "";
-            var $Promise = global[PROMISE];
-            var isNode = "process" == classof(process);
-            var empty = function() {};
-            var Internal, newGenericPromiseCapability, OwnPromiseCapability, Wrapper;
-            var newPromiseCapability = newGenericPromiseCapability = newPromiseCapabilityModule.f;
-            var USE_NATIVE = !!function() {
-                try {
-                    var promise = $Promise.resolve(1);
-                    var FakePromise = (promise.constructor = {})[__webpack_require__(6314)("species")] = function(exec) {
-                        exec(empty, empty);
-                    };
-                    return (isNode || "function" == typeof PromiseRejectionEvent) && promise.then(empty) instanceof FakePromise && 0 !== v8.indexOf("6.6") && -1 === userAgent.indexOf("Chrome/66");
-                } catch (e) {}
-            }();
-            var isThenable = function(it) {
-                var then;
-                return isObject(it) && "function" == typeof (then = it.then) ? then : false;
-            };
-            var notify = function(promise, isReject) {
-                if (promise._n) return;
-                promise._n = true;
-                var chain = promise._c;
-                microtask((function() {
-                    var value = promise._v;
-                    var ok = 1 == promise._s;
-                    var i = 0;
-                    var run = function(reaction) {
-                        var handler = ok ? reaction.ok : reaction.fail;
-                        var resolve = reaction.resolve;
-                        var reject = reaction.reject;
-                        var domain = reaction.domain;
-                        var result, then, exited;
-                        try {
-                            if (handler) {
-                                if (!ok) {
-                                    if (2 == promise._h) onHandleUnhandled(promise);
-                                    promise._h = 1;
-                                }
-                                if (true === handler) result = value; else {
-                                    if (domain) domain.enter();
-                                    result = handler(value);
-                                    if (domain) {
-                                        domain.exit();
-                                        exited = true;
-                                    }
-                                }
-                                if (result === reaction.promise) reject(TypeError("Promise-chain cycle")); else if (then = isThenable(result)) then.call(result, resolve, reject); else resolve(result);
-                            } else reject(value);
-                        } catch (e) {
-                            if (domain && !exited) domain.exit();
-                            reject(e);
-                        }
-                    };
-                    while (chain.length > i) run(chain[i++]);
-                    promise._c = [];
-                    promise._n = false;
-                    if (isReject && !promise._h) onUnhandled(promise);
-                }));
-            };
-            var onUnhandled = function(promise) {
-                task.call(global, (function() {
-                    var value = promise._v;
-                    var unhandled = isUnhandled(promise);
-                    var result, handler, console;
-                    if (unhandled) {
-                        result = perform((function() {
-                            if (isNode) process.emit("unhandledRejection", value, promise); else if (handler = global.onunhandledrejection) handler({
-                                promise: promise,
-                                reason: value
-                            }); else if ((console = global.console) && console.error) console.error("Unhandled promise rejection", value);
-                        }));
-                        promise._h = isNode || isUnhandled(promise) ? 2 : 1;
-                    }
-                    promise._a = void 0;
-                    if (unhandled && result.e) throw result.v;
-                }));
-            };
-            var isUnhandled = function(promise) {
-                return 1 !== promise._h && 0 === (promise._a || promise._c).length;
-            };
-            var onHandleUnhandled = function(promise) {
-                task.call(global, (function() {
-                    var handler;
-                    if (isNode) process.emit("rejectionHandled", promise); else if (handler = global.onrejectionhandled) handler({
-                        promise: promise,
-                        reason: promise._v
-                    });
-                }));
-            };
-            var $reject = function(value) {
-                var promise = this;
-                if (promise._d) return;
-                promise._d = true;
-                promise = promise._w || promise;
-                promise._v = value;
-                promise._s = 2;
-                if (!promise._a) promise._a = promise._c.slice();
-                notify(promise, true);
-            };
-            var $resolve = function(value) {
-                var promise = this;
-                var then;
-                if (promise._d) return;
-                promise._d = true;
-                promise = promise._w || promise;
-                try {
-                    if (promise === value) throw TypeError("Promise can't be resolved itself");
-                    if (then = isThenable(value)) microtask((function() {
-                        var wrapper = {
-                            _w: promise,
-                            _d: false
-                        };
-                        try {
-                            then.call(value, ctx($resolve, wrapper, 1), ctx($reject, wrapper, 1));
-                        } catch (e) {
-                            $reject.call(wrapper, e);
-                        }
-                    })); else {
-                        promise._v = value;
-                        promise._s = 1;
-                        notify(promise, false);
-                    }
-                } catch (e) {
-                    $reject.call({
-                        _w: promise,
-                        _d: false
-                    }, e);
-                }
-            };
-            if (!USE_NATIVE) {
-                $Promise = function Promise(executor) {
-                    anInstance(this, $Promise, PROMISE, "_h");
-                    aFunction(executor);
-                    Internal.call(this);
-                    try {
-                        executor(ctx($resolve, this, 1), ctx($reject, this, 1));
-                    } catch (err) {
-                        $reject.call(this, err);
-                    }
-                };
-                Internal = function Promise(executor) {
-                    this._c = [];
-                    this._a = void 0;
-                    this._s = 0;
-                    this._d = false;
-                    this._v = void 0;
-                    this._h = 0;
-                    this._n = false;
-                };
-                Internal.prototype = __webpack_require__(4408)($Promise.prototype, {
-                    then: function then(onFulfilled, onRejected) {
-                        var reaction = newPromiseCapability(speciesConstructor(this, $Promise));
-                        reaction.ok = "function" == typeof onFulfilled ? onFulfilled : true;
-                        reaction.fail = "function" == typeof onRejected && onRejected;
-                        reaction.domain = isNode ? process.domain : void 0;
-                        this._c.push(reaction);
-                        if (this._a) this._a.push(reaction);
-                        if (this._s) notify(this, false);
-                        return reaction.promise;
-                    },
-                    catch: function(onRejected) {
-                        return this.then(void 0, onRejected);
-                    }
-                });
-                OwnPromiseCapability = function() {
-                    var promise = new Internal;
-                    this.promise = promise;
-                    this.resolve = ctx($resolve, promise, 1);
-                    this.reject = ctx($reject, promise, 1);
-                };
-                newPromiseCapabilityModule.f = newPromiseCapability = function(C) {
-                    return C === $Promise || C === Wrapper ? new OwnPromiseCapability(C) : newGenericPromiseCapability(C);
-                };
-            }
-            $export($export.G + $export.W + $export.F * !USE_NATIVE, {
-                Promise: $Promise
-            });
-            __webpack_require__(2943)($Promise, PROMISE);
-            __webpack_require__(2974)(PROMISE);
-            Wrapper = __webpack_require__(5645)[PROMISE];
-            $export($export.S + $export.F * !USE_NATIVE, PROMISE, {
-                reject: function reject(r) {
-                    var capability = newPromiseCapability(this);
-                    var $$reject = capability.reject;
-                    $$reject(r);
-                    return capability.promise;
-                }
-            });
-            $export($export.S + $export.F * (LIBRARY || !USE_NATIVE), PROMISE, {
-                resolve: function resolve(x) {
-                    return promiseResolve(LIBRARY && this === Wrapper ? $Promise : this, x);
-                }
-            });
-            $export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(7462)((function(iter) {
-                $Promise.all(iter)["catch"](empty);
-            }))), PROMISE, {
-                all: function all(iterable) {
-                    var C = this;
-                    var capability = newPromiseCapability(C);
-                    var resolve = capability.resolve;
-                    var reject = capability.reject;
-                    var result = perform((function() {
-                        var values = [];
-                        var index = 0;
-                        var remaining = 1;
-                        forOf(iterable, false, (function(promise) {
-                            var $index = index++;
-                            var alreadyCalled = false;
-                            values.push(void 0);
-                            remaining++;
-                            C.resolve(promise).then((function(value) {
-                                if (alreadyCalled) return;
-                                alreadyCalled = true;
-                                values[$index] = value;
-                                --remaining || resolve(values);
-                            }), reject);
-                        }));
-                        --remaining || resolve(values);
-                    }));
-                    if (result.e) reject(result.v);
-                    return capability.promise;
-                },
-                race: function race(iterable) {
-                    var C = this;
-                    var capability = newPromiseCapability(C);
-                    var reject = capability.reject;
-                    var result = perform((function() {
-                        forOf(iterable, false, (function(promise) {
-                            C.resolve(promise).then(capability.resolve, reject);
-                        }));
-                    }));
-                    if (result.e) reject(result.v);
-                    return capability.promise;
-                }
-            });
         },
         8269: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
@@ -2350,9 +1814,6 @@
             setToStringTag(Math, "Math", true);
             setToStringTag(global.JSON, "JSON", true);
         },
-        9665: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
-            __webpack_require__(6074)("asyncIterator");
-        },
         1181: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             var $iterators = __webpack_require__(6997);
             var getKeys = __webpack_require__(7184);
@@ -2448,315 +1909,7 @@
                 }));
             }
         }), 0);
-        __webpack_require__(851);
         __webpack_require__(6059);
-        __webpack_require__(9665);
-        __webpack_require__(1520);
-        function _typeof(obj) {
-            "@babel/helpers - typeof";
-            return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
-                return typeof obj;
-            } : function(obj) {
-                return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-            }, _typeof(obj);
-        }
-        function _regeneratorRuntime() {
-            "use strict";
- /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */            _regeneratorRuntime = function _regeneratorRuntime() {
-                return exports;
-            };
-            var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
-            function define(obj, key, value) {
-                return Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }), obj[key];
-            }
-            try {
-                define({}, "");
-            } catch (err) {
-                define = function define(obj, key, value) {
-                    return obj[key] = value;
-                };
-            }
-            function wrap(innerFn, outerFn, self, tryLocsList) {
-                var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []);
-                return generator._invoke = function(innerFn, self, context) {
-                    var state = "suspendedStart";
-                    return function(method, arg) {
-                        if ("executing" === state) throw new Error("Generator is already running");
-                        if ("completed" === state) {
-                            if ("throw" === method) throw arg;
-                            return doneResult();
-                        }
-                        for (context.method = method, context.arg = arg; ;) {
-                            var delegate = context.delegate;
-                            if (delegate) {
-                                var delegateResult = maybeInvokeDelegate(delegate, context);
-                                if (delegateResult) {
-                                    if (delegateResult === ContinueSentinel) continue;
-                                    return delegateResult;
-                                }
-                            }
-                            if ("next" === context.method) context.sent = context._sent = context.arg; else if ("throw" === context.method) {
-                                if ("suspendedStart" === state) throw state = "completed", context.arg;
-                                context.dispatchException(context.arg);
-                            } else "return" === context.method && context.abrupt("return", context.arg);
-                            state = "executing";
-                            var record = tryCatch(innerFn, self, context);
-                            if ("normal" === record.type) {
-                                if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue;
-                                return {
-                                    value: record.arg,
-                                    done: context.done
-                                };
-                            }
-                            "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg);
-                        }
-                    };
-                }(innerFn, self, context), generator;
-            }
-            function tryCatch(fn, obj, arg) {
-                try {
-                    return {
-                        type: "normal",
-                        arg: fn.call(obj, arg)
-                    };
-                } catch (err) {
-                    return {
-                        type: "throw",
-                        arg: err
-                    };
-                }
-            }
-            exports.wrap = wrap;
-            var ContinueSentinel = {};
-            function Generator() {}
-            function GeneratorFunction() {}
-            function GeneratorFunctionPrototype() {}
-            var IteratorPrototype = {};
-            define(IteratorPrototype, iteratorSymbol, (function() {
-                return this;
-            }));
-            var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([])));
-            NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype);
-            var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype);
-            function defineIteratorMethods(prototype) {
-                [ "next", "throw", "return" ].forEach((function(method) {
-                    define(prototype, method, (function(arg) {
-                        return this._invoke(method, arg);
-                    }));
-                }));
-            }
-            function AsyncIterator(generator, PromiseImpl) {
-                function invoke(method, arg, resolve, reject) {
-                    var record = tryCatch(generator[method], generator, arg);
-                    if ("throw" !== record.type) {
-                        var result = record.arg, value = result.value;
-                        return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then((function(value) {
-                            invoke("next", value, resolve, reject);
-                        }), (function(err) {
-                            invoke("throw", err, resolve, reject);
-                        })) : PromiseImpl.resolve(value).then((function(unwrapped) {
-                            result.value = unwrapped, resolve(result);
-                        }), (function(error) {
-                            return invoke("throw", error, resolve, reject);
-                        }));
-                    }
-                    reject(record.arg);
-                }
-                var previousPromise;
-                this._invoke = function(method, arg) {
-                    function callInvokeWithMethodAndArg() {
-                        return new PromiseImpl((function(resolve, reject) {
-                            invoke(method, arg, resolve, reject);
-                        }));
-                    }
-                    return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
-                };
-            }
-            function maybeInvokeDelegate(delegate, context) {
-                var method = delegate.iterator[context.method];
-                if (void 0 === method) {
-                    if (context.delegate = null, "throw" === context.method) {
-                        if (delegate.iterator.return && (context.method = "return", context.arg = void 0, 
-                        maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel;
-                        context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method");
-                    }
-                    return ContinueSentinel;
-                }
-                var record = tryCatch(method, delegate.iterator, context.arg);
-                if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, 
-                context.delegate = null, ContinueSentinel;
-                var info = record.arg;
-                return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, 
-                "return" !== context.method && (context.method = "next", context.arg = void 0), 
-                context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), 
-                context.delegate = null, ContinueSentinel);
-            }
-            function pushTryEntry(locs) {
-                var entry = {
-                    tryLoc: locs[0]
-                };
-                1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], 
-                entry.afterLoc = locs[3]), this.tryEntries.push(entry);
-            }
-            function resetTryEntry(entry) {
-                var record = entry.completion || {};
-                record.type = "normal", delete record.arg, entry.completion = record;
-            }
-            function Context(tryLocsList) {
-                this.tryEntries = [ {
-                    tryLoc: "root"
-                } ], tryLocsList.forEach(pushTryEntry, this), this.reset(!0);
-            }
-            function values(iterable) {
-                if (iterable) {
-                    var iteratorMethod = iterable[iteratorSymbol];
-                    if (iteratorMethod) return iteratorMethod.call(iterable);
-                    if ("function" == typeof iterable.next) return iterable;
-                    if (!isNaN(iterable.length)) {
-                        var i = -1, next = function next() {
-                            for (;++i < iterable.length; ) if (hasOwn.call(iterable, i)) return next.value = iterable[i], 
-                            next.done = !1, next;
-                            return next.value = void 0, next.done = !0, next;
-                        };
-                        return next.next = next;
-                    }
-                }
-                return {
-                    next: doneResult
-                };
-            }
-            function doneResult() {
-                return {
-                    value: void 0,
-                    done: !0
-                };
-            }
-            return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), 
-            define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), 
-            exports.isGeneratorFunction = function(genFun) {
-                var ctor = "function" == typeof genFun && genFun.constructor;
-                return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name));
-            }, exports.mark = function(genFun) {
-                return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, 
-                define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), 
-                genFun;
-            }, exports.awrap = function(arg) {
-                return {
-                    __await: arg
-                };
-            }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, (function() {
-                return this;
-            })), exports.AsyncIterator = AsyncIterator, exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
-                void 0 === PromiseImpl && (PromiseImpl = Promise);
-                var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl);
-                return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then((function(result) {
-                    return result.done ? result.value : iter.next();
-                }));
-            }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, (function() {
-                return this;
-            })), define(Gp, "toString", (function() {
-                return "[object Generator]";
-            })), exports.keys = function(object) {
-                var keys = [];
-                for (var key in object) keys.push(key);
-                return keys.reverse(), function next() {
-                    for (;keys.length; ) {
-                        var key = keys.pop();
-                        if (key in object) return next.value = key, next.done = !1, next;
-                    }
-                    return next.done = !0, next;
-                };
-            }, exports.values = values, Context.prototype = {
-                constructor: Context,
-                reset: function reset(skipTempReset) {
-                    if (this.prev = 0, this.next = 0, this.sent = this._sent = void 0, this.done = !1, 
-                    this.delegate = null, this.method = "next", this.arg = void 0, this.tryEntries.forEach(resetTryEntry), 
-                    !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = void 0);
-                },
-                stop: function stop() {
-                    this.done = !0;
-                    var rootRecord = this.tryEntries[0].completion;
-                    if ("throw" === rootRecord.type) throw rootRecord.arg;
-                    return this.rval;
-                },
-                dispatchException: function dispatchException(exception) {
-                    if (this.done) throw exception;
-                    var context = this;
-                    function handle(loc, caught) {
-                        return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", 
-                        context.arg = void 0), !!caught;
-                    }
-                    for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-                        var entry = this.tryEntries[i], record = entry.completion;
-                        if ("root" === entry.tryLoc) return handle("end");
-                        if (entry.tryLoc <= this.prev) {
-                            var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc");
-                            if (hasCatch && hasFinally) {
-                                if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
-                                if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
-                            } else if (hasCatch) {
-                                if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
-                            } else {
-                                if (!hasFinally) throw new Error("try statement without catch or finally");
-                                if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
-                            }
-                        }
-                    }
-                },
-                abrupt: function abrupt(type, arg) {
-                    for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-                        var entry = this.tryEntries[i];
-                        if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) {
-                            var finallyEntry = entry;
-                            break;
-                        }
-                    }
-                    finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null);
-                    var record = finallyEntry ? finallyEntry.completion : {};
-                    return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", 
-                    this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record);
-                },
-                complete: function complete(record, afterLoc) {
-                    if ("throw" === record.type) throw record.arg;
-                    return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, 
-                    this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), 
-                    ContinueSentinel;
-                },
-                finish: function finish(finallyLoc) {
-                    for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-                        var entry = this.tryEntries[i];
-                        if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), 
-                        resetTryEntry(entry), ContinueSentinel;
-                    }
-                },
-                catch: function _catch(tryLoc) {
-                    for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-                        var entry = this.tryEntries[i];
-                        if (entry.tryLoc === tryLoc) {
-                            var record = entry.completion;
-                            if ("throw" === record.type) {
-                                var thrown = record.arg;
-                                resetTryEntry(entry);
-                            }
-                            return thrown;
-                        }
-                    }
-                    throw new Error("illegal catch attempt");
-                },
-                delegateYield: function delegateYield(iterable, resultName, nextLoc) {
-                    return this.delegate = {
-                        iterator: values(iterable),
-                        resultName: resultName,
-                        nextLoc: nextLoc
-                    }, "next" === this.method && (this.arg = void 0), ContinueSentinel;
-                }
-            }, exports;
-        }
         function _createForOfIteratorHelper(o, allowArrayLike) {
             var it = "undefined" !== typeof Symbol && o[Symbol.iterator] || o["@@iterator"];
             if (!it) {
@@ -2819,89 +1972,80 @@
             for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
             return arr2;
         }
-        function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-            try {
-                var info = gen[key](arg);
-                var value = info.value;
-            } catch (error) {
-                reject(error);
-                return;
-            }
-            if (info.done) resolve(value); else Promise.resolve(value).then(_next, _throw);
-        }
-        function _asyncToGenerator(fn) {
-            return function() {
-                var self = this, args = arguments;
-                return new Promise((function(resolve, reject) {
-                    var gen = fn.apply(self, args);
-                    function _next(value) {
-                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-                    }
-                    function _throw(err) {
-                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-                    }
-                    _next(void 0);
-                }));
-            };
-        }
+        var json = {
+            products: [ {
+                productId: 0,
+                productPhoto: "./img/cat.png",
+                productLink: "#",
+                productSubtitle: "Сказочное заморское яство",
+                productTitle: "Нямушка",
+                productTaste: "с фуа-гра",
+                productNumberPortions: 10,
+                productNumberMices: 0,
+                productWeight: .5,
+                isCustomerHappy: false,
+                selectedText: "Печень утки разварная с артишоками.",
+                isDisabled: false
+            }, {
+                productId: 1,
+                productPhoto: "./img/cat.png",
+                productLink: "#",
+                productSubtitle: "Сказочное заморское яство",
+                productTitle: "Нямушка",
+                productTaste: "с рыбой",
+                productNumberPortions: 40,
+                productNumberMices: 2,
+                productWeight: 2,
+                isCustomerHappy: false,
+                selectedText: "Головы щучьи с чесноком да свежайшая сёмгушка.",
+                isDisabled: false
+            }, {
+                productId: 2,
+                productPhoto: "./img/cat.png",
+                productLink: "#",
+                productSubtitle: "Сказочное заморское яство",
+                productTitle: "Нямушка",
+                productTaste: "с курой",
+                productNumberPortions: 100,
+                productNumberMices: 5,
+                productWeight: 5,
+                isCustomerHappy: true,
+                selectedText: "Филе из цыплят с трюфелями в бульоне.",
+                isDisabled: true
+            } ]
+        };
         var productsContainer = document.getElementById("products");
-        getProducts();
-        function getProducts() {
-            return _getProducts.apply(this, arguments);
-        }
-        function _getProducts() {
-            _getProducts = _asyncToGenerator(_regeneratorRuntime().mark((function _callee() {
-                var response, data, _iterator, _step, product, mouses, happyText, hoverText, paramsDisabledClass, weightDisabledClass, borderDisabledClass, firstSpanClass, thirdSpanDisabledClass, linkTextDisabled, template;
-                return _regeneratorRuntime().wrap((function _callee$(_context) {
-                    while (1) switch (_context.prev = _context.next) {
-                      case 0:
-                        _context.next = 2;
-                        return fetch("./files/products.json");
-
-                      case 2:
-                        response = _context.sent;
-                        _context.next = 5;
-                        return response.json();
-
-                      case 5:
-                        data = _context.sent;
-                        _iterator = _createForOfIteratorHelper(data.products);
-                        try {
-                            for (_iterator.s(); !(_step = _iterator.n()).done; ) {
-                                product = _step.value;
-                                mouses = void 0;
-                                product.productNumberMices <= 1 ? mouses = "" : mouses = product.productNumberMices;
-                                happyText = void 0;
-                                product.isCustomerHappy ? happyText = "<br>заказчик доволен" : happyText = "";
-                                hoverText = "Котэ не одобряет?";
-                                paramsDisabledClass = void 0;
-                                product.isDisabled ? paramsDisabledClass = "description__wrapper_disabled" : "";
-                                weightDisabledClass = void 0;
-                                product.isDisabled ? weightDisabledClass = "description__weight_disabled" : weightDisabledClass = "description__weight_default";
-                                borderDisabledClass = void 0;
-                                product.isDisabled ? borderDisabledClass = "description_disabled" : borderDisabledClass = "description_default";
-                                firstSpanClass = void 0;
-                                product.isDisabled ? firstSpanClass = "class='display-none'" : firstSpanClass = " ";
-                                thirdSpanDisabledClass = void 0;
-                                product.isDisabled ? thirdSpanDisabledClass = " " : thirdSpanDisabledClass = "class='display-none'";
-                                linkTextDisabled = void 0;
-                                product.isDisabled ? linkTextDisabled = "body__product-card__link_disabled" : linkTextDisabled = "";
-                                template = '<div class="body__product-card">\n<div class="body__product-card__description description '.concat(borderDisabledClass, '">\n  <div class="description__wrapper">\n  <img src="').concat(product.productPhoto, '" alt="">\n  <div class="description__subtitle ').concat(paramsDisabledClass, '"><span>').concat(product.productSubtitle, '</span><span class="display-none description__subtitle_selected">').concat(hoverText, '</span></div>\n  <div class="description__title ').concat(paramsDisabledClass, '">').concat(product.productTitle, '</div>\n  <div class="description__taste ').concat(paramsDisabledClass, '">').concat(product.productTaste, '</div>\n  <div class="description__comment ').concat(paramsDisabledClass, '"><span>').concat(product.productNumberPortions, "</span> порций<br>").concat(mouses, " мышь в подарок").concat(happyText, '</div>\n  <div class="description__weight ').concat(weightDisabledClass, '">\n    <div class="description__weight__number">').concat(product.productWeight, '</div>\n    <div class="description__weight__units">кг</div>\n  </div>\n</div>\n</div>\n<div class="body__product-card__link link ').concat(linkTextDisabled, '">\n<span ').concat(firstSpanClass, '>Чего сидишь? Порадуй котэ, <a class="link__a" href="').concat(product.productLink, '">купи.</a></span>\n<span class="display-none" >').concat(product.selectedText, "</span>\n<span  ").concat(thirdSpanDisabledClass, ">Печалька, ").concat(product.productTaste, " закончился.</span>\n</div>\n</div>");
-                                productsContainer.innerHTML += template;
-                            }
-                        } catch (err) {
-                            _iterator.e(err);
-                        } finally {
-                            _iterator.f();
-                        }
-
-                      case 8:
-                      case "end":
-                        return _context.stop();
-                    }
-                }), _callee);
-            })));
-            return _getProducts.apply(this, arguments);
+        getProducts(json);
+        function getProducts(data) {
+            var _step, _iterator = _createForOfIteratorHelper(data.products);
+            try {
+                for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+                    var product = _step.value;
+                    var mouses = void 0;
+                    product.productNumberMices <= 1 ? mouses = "" : mouses = product.productNumberMices;
+                    var happyText = void 0;
+                    product.isCustomerHappy ? happyText = "<br>заказчик доволен" : happyText = "";
+                    var hoverText = "Котэ не одобряет?";
+                    var paramsDisabledClass = void 0;
+                    product.isDisabled ? paramsDisabledClass = "description__wrapper_disabled" : "";
+                    var weightDisabledClass = void 0;
+                    product.isDisabled ? weightDisabledClass = "description__weight_disabled" : weightDisabledClass = "description__weight_default";
+                    var borderDisabledClass = void 0;
+                    product.isDisabled ? borderDisabledClass = "description_disabled" : borderDisabledClass = "description_default";
+                    var firstSpanClass = void 0;
+                    product.isDisabled ? firstSpanClass = "class='display-none'" : firstSpanClass = " ";
+                    var thirdSpanDisabledClass = void 0;
+                    product.isDisabled ? thirdSpanDisabledClass = " " : thirdSpanDisabledClass = "class='display-none'";
+                    var linkTextDisabled = void 0;
+                    product.isDisabled ? linkTextDisabled = "body__product-card__link_disabled" : linkTextDisabled = "";
+                    var template = '<div class="body__product-card">\n<div class="body__product-card__description description '.concat(borderDisabledClass, '">\n  <div class="description__wrapper">\n  <img src="').concat(product.productPhoto, '" alt="">\n  <div class="description__subtitle ').concat(paramsDisabledClass, '"><span>').concat(product.productSubtitle, '</span><span class="display-none description__subtitle_selected">').concat(hoverText, '</span></div>\n  <div class="description__title ').concat(paramsDisabledClass, '">').concat(product.productTitle, '</div>\n  <div class="description__taste ').concat(paramsDisabledClass, '">').concat(product.productTaste, '</div>\n  <div class="description__comment ').concat(paramsDisabledClass, '"><span>').concat(product.productNumberPortions, "</span> порций<br>").concat(mouses, " мышь в подарок").concat(happyText, '</div>\n  <div class="description__weight ').concat(weightDisabledClass, '">\n    <div class="description__weight__number">').concat(product.productWeight, '</div>\n    <div class="description__weight__units">кг</div>\n  </div>\n</div>\n</div>\n<div class="body__product-card__link link ').concat(linkTextDisabled, '">\n<span ').concat(firstSpanClass, '>Чего сидишь? Порадуй котэ, <a class="link__a" href="').concat(product.productLink, '">купи.</a></span>\n<span class="display-none" >').concat(product.selectedText, "</span>\n<span  ").concat(thirdSpanDisabledClass, ">Печалька, ").concat(product.productTaste, " закончился.</span>\n</div>\n</div>");
+                    productsContainer.innerHTML += template;
+                }
+            } catch (err) {
+                _iterator.e(err);
+            } finally {
+                _iterator.f();
+            }
         }
         function _toConsumableArray(arr) {
             return _arrayWithoutHoles(arr) || _iterableToArray(arr) || showSelected_unsupportedIterableToArray(arr) || _nonIterableSpread();

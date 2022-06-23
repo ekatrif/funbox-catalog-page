@@ -20,6 +20,7 @@
   "devDependencies": {
     "@babel/cli": "^7.17.10",
     "@babel/core": "^7.18.5",
+    "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.18.2",
     "babel-loader": "^8.2.5",
     "copy-webpack-plugin": "latest",
@@ -72,7 +73,8 @@
     "webpack": "^5.73.0",
     "webpack-cli": "latest",
     "webpack-dev-server": "latest",
-    "webpack-stream": "latest"
+    "webpack-stream": "latest",
+    "whatwg-fetch": "^3.6.2"
   },
   "dependencies": {
     "simplebar": "latest"

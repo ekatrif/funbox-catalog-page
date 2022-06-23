@@ -1,9 +1,57 @@
+let json = {
+  products: [
+    {
+      productId: 0,
+      productPhoto: "./img/cat.png",
+      productLink: "#",
+      productSubtitle: "Сказочное заморское яство",
+      productTitle: "Нямушка",
+      productTaste: "с фуа-гра",
+      productNumberPortions: 10,
+      productNumberMices: 0,
+      productWeight: 0.5,
+      isCustomerHappy: false,
+      selectedText: "Печень утки разварная с артишоками.",
+      isDisabled: false,
+    },
+    {
+      productId: 1,
+      productPhoto: "./img/cat.png",
+      productLink: "#",
+      productSubtitle: "Сказочное заморское яство",
+      productTitle: "Нямушка",
+      productTaste: "с рыбой",
+      productNumberPortions: 40,
+      productNumberMices: 2,
+      productWeight: 2,
+      isCustomerHappy: false,
+      selectedText: "Головы щучьи с чесноком да свежайшая сёмгушка.",
+      isDisabled: false,
+    },
+    {
+      productId: 2,
+      productPhoto: "./img/cat.png",
+      productLink: "#",
+      productSubtitle: "Сказочное заморское яство",
+      productTitle: "Нямушка",
+      productTaste: "с курой",
+      productNumberPortions: 100,
+      productNumberMices: 5,
+      productWeight: 5,
+      isCustomerHappy: true,
+      selectedText: "Филе из цыплят с трюфелями в бульоне.",
+      isDisabled: true,
+    },
+  ],
+};
+
 let productsContainer = document.getElementById("products");
 
-getProducts();
-async function getProducts() {
-  let response = await fetch("./files/products.json");
-  let data = await response.json();
+getProducts(json);
+// async
+function getProducts(data) {
+  // let response = await fetch("./files/products.json");
+  // let data = await response.json();
 
   for (let product of data.products) {
     let mouses;
