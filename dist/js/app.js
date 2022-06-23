@@ -2047,6 +2047,87 @@
                 _iterator.f();
             }
         }
+        function _toConsumableArray(arr) {
+            return _arrayWithoutHoles(arr) || _iterableToArray(arr) || showSelected_unsupportedIterableToArray(arr) || _nonIterableSpread();
+        }
+        function _nonIterableSpread() {
+            throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+        }
+        function showSelected_unsupportedIterableToArray(o, minLen) {
+            if (!o) return;
+            if ("string" === typeof o) return showSelected_arrayLikeToArray(o, minLen);
+            var n = Object.prototype.toString.call(o).slice(8, -1);
+            if ("Object" === n && o.constructor) n = o.constructor.name;
+            if ("Map" === n || "Set" === n) return Array.from(o);
+            if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return showSelected_arrayLikeToArray(o, minLen);
+        }
+        function _iterableToArray(iter) {
+            if ("undefined" !== typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
+        }
+        function _arrayWithoutHoles(arr) {
+            if (Array.isArray(arr)) return showSelected_arrayLikeToArray(arr);
+        }
+        function showSelected_arrayLikeToArray(arr, len) {
+            if (null == len || len > arr.length) len = arr.length;
+            for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+            return arr2;
+        }
+        var showSelected_productsContainer = document.getElementById("products");
+        var flagLeave = false;
+        var flagEnter = false;
+        showSelected_productsContainer.addEventListener("click", (function(e) {
+            if (!e.target.classList.contains("link__a") && e.target.closest(".body__product-card__link")) return;
+            if (e.target.closest(".body__product-card") && e.target.closest(".body__product-card").querySelectorAll(".description_disabled")[0]) return; else {
+                e.preventDefault();
+                if (e.target.closest(".body__product-card")) {
+                    e.target.closest(".body__product-card").querySelectorAll(".body__product-card__description")[0].classList.toggle("description_selected");
+                    e.target.closest(".body__product-card").querySelectorAll(".body__product-card__description")[0].classList.toggle("description_default");
+                    e.target.closest(".body__product-card").querySelectorAll(".body__product-card__description")[0].querySelectorAll(".description__weight")[0].classList.toggle("description__weight_selected");
+                    e.target.closest(".body__product-card").querySelectorAll(".body__product-card__description")[0].querySelectorAll(".description__weight")[0].classList.toggle("description__weight_default");
+                }
+            }
+            if (e.target.closest(".body__product-card")) {
+                var linkContainer = e.target.closest(".body__product-card").querySelectorAll(".body__product-card__link")[0];
+                var spans = linkContainer.querySelectorAll("span");
+                for (var _i = 0, _arr = _toConsumableArray(spans); _i < _arr.length; _i++) {
+                    var span = _arr[_i];
+                    span.classList.toggle("display-none");
+                    spans[2].classList.toggle("display-none");
+                }
+            }
+            showHoverState();
+            flagLeave = false;
+            flagEnter = false;
+            function showHoverState() {
+                var productCards = document.querySelectorAll(".body__product-card");
+                var _loop = function _loop() {
+                    var productCard = _arr2[_i2];
+                    productCard.addEventListener("mouseleave", (function(e) {
+                        if (e.target.querySelectorAll(".body__product-card__description")[0].classList.contains("description_selected")) {
+                            if (!flagLeave) toggleSubtitle(e);
+                            flagLeave = true;
+                            flagEnter = false;
+                        }
+                    }));
+                    productCard.addEventListener("mouseenter", (function(e) {
+                        if (e.target.querySelectorAll(".body__product-card__description")[0].classList.contains("description_selected")) {
+                            if (!flagEnter) toggleSubtitle(e);
+                            flagEnter = true;
+                            flagLeave = false;
+                        }
+                    }));
+                    function toggleSubtitle(e) {
+                        var subTitle = e.target.querySelectorAll(".description__subtitle")[0];
+                        var spans = subTitle.querySelectorAll("span");
+                        for (var _i3 = 0, _arr3 = _toConsumableArray(spans); _i3 < _arr3.length; _i3++) {
+                            var _span = _arr3[_i3];
+                            _span.classList.toggle("display-none");
+                        }
+                    }
+                };
+                for (var _i2 = 0, _arr2 = _toConsumableArray(productCards); _i2 < _arr2.length; _i2++) _loop();
+            }
+        }));
         window["FLS"] = true;
     }();
 })();
