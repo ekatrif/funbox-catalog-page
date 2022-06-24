@@ -68,7 +68,7 @@ function getProducts(data) {
     let paramsDisabledClass;
     product.isDisabled
       ? (paramsDisabledClass = "description__wrapper_disabled")
-      : "";
+      : (paramsDisabledClass = " ");
     //Добавляем класс _disabled весу товара
     let weightDisabledClass;
     product.isDisabled
