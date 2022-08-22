@@ -1,6 +1,6 @@
 # Тестовое задание для funbox
 
-[Практическое задание](https://ekatrif.github.io/funbox-test-task/dist/)
+[Страница интернет-магазина](https://ekatrif.github.io/funbox-test-task/dist/)
 
 ## Ответы на вопросы
 
