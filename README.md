@@ -1,6 +1,6 @@
 # Страница каталога с товарами
 
-**Ссылка на deploy**: https://ekatrif.github.io/plants/https://ekatrif.github.io/funbox-test-task/dist/
+**Ссылка на deploy**:https://ekatrif.github.io/funbox-catalog-page/dist
 
 ## Стек:
 
